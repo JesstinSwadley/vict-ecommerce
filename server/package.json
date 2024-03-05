@@ -1,0 +1,24 @@
+{
+  "name": "node-vict-ecommerce",
+  "version": "0.0.1",
+  "description": "A Node.js backend that serves as the backend to an ecommerce store",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JesstinSwadley/vict-ecommerce.git"
+  },
+  "author": "Jesstin Swadley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JesstinSwadley/vict-ecommerce/issues"
+  },
+  "homepage": "https://github.com/JesstinSwadley/vict-ecommerce#readme",
+  "dependencies": {
+    "express": "^4.18.3",
+    "mysql2": "^3.9.2",
+    "sequelize": "^6.37.1"
+  }
+}
