@@ -1,17 +1,22 @@
-const { models: { Seller } } = require("../models/db");
+const {
+	models: { Seller },
+} = require("../models/db");
 
 const createSeller = async (req, res) => {
-	let email = req.body.emaill
-	let password = req.body.password
+	console.log(req.body);
+	let email = req.body.email;
+	let password = req.body.password;
 
 	try {
 		const seller = await Seller.create({
 			email,
-			password
+			password,
 		});
 
 		res.send(seller);
 	} catch (error) {
 		res.send(error);
 	}
-}
+};
+
+module.exports = { createSeller };
