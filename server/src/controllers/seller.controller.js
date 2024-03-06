@@ -2,8 +2,7 @@ const {
 	models: { Seller },
 } = require("../models/db");
 
-const createSeller = async (req, res) => {
-	console.log(req.body);
+const registerSeller = async (req, res) => {
 	let email = req.body.email;
 	let password = req.body.password;
 
@@ -19,4 +18,22 @@ const createSeller = async (req, res) => {
 	}
 };
 
-module.exports = { createSeller };
+const loginSeller = async (req, res) => {
+	let email = req.body.email;
+
+	try {
+		const seller = await Seller.findOne({
+			where: { email }
+		});
+
+		if(!seller) {
+			res.send("Incorrect Email or Password");
+		}
+
+		res.send("Welcome to the server")
+	} catch (error) {
+		res.send(error);
+	}
+}
+
+module.exports = { registerSeller, loginSeller };
