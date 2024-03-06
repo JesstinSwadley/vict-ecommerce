@@ -12,9 +12,9 @@ const registerSeller = async (req, res) => {
 			password,
 		});
 
-		res.send(seller);
+		return res.send(seller);
 	} catch (error) {
-		res.send(error);
+		return res.send(error);
 	}
 };
 
@@ -27,12 +27,12 @@ const loginSeller = async (req, res) => {
 		});
 
 		if(!seller) {
-			res.send("Incorrect Email or Password");
+			return res.send("Incorrect Email or Password");
 		}
 
-		res.send("Welcome to the server")
+		return res.send("Welcome to the server");
 	} catch (error) {
-		res.send(error);
+		return res.send(error);
 	}
 }
 
