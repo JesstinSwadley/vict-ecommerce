@@ -18,9 +18,11 @@ const PORT = process.env.PORT || 3000;
 
 // Router
 const sellerRoutes = require("./router/seller.routes");
+const productRoutes = require("./router/product.routes");
 
 // Routes
 app.use("/sellers", sellerRoutes);
+app.use("/products", productRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server is on Port ${PORT}`);
