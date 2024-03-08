@@ -2,3 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.page-title {
+    @apply text-3xl font-bold my-16 justify-center flex;
+}

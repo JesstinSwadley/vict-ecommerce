@@ -10,8 +10,7 @@ const HomePage = () => {
 			<SellerRegisterForm />
 			<h1 className='text-xl font-bold my-4'>Login Seller</h1>
 			<SellerLoginForm />
-			<h1 className='text-xl font-bold my-4'>Register Buyer</h1>
-			<AddProductForm />
+	
 		</div>
 	);
 };
