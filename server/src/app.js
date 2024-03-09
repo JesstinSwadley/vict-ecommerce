@@ -17,11 +17,11 @@ const PORT = process.env.PORT || 3000;
 })();
 
 // Router
-const sellerRoutes = require("./router/seller.routes");
+const merchantRoutes = require("./router/merchant.routes");
 const productRoutes = require("./router/product.routes");
 
 // Routes
-app.use("/sellers", sellerRoutes);
+app.use("/merchants", merchantRoutes);
 app.use("/products", productRoutes);
 
 app.listen(PORT, () => {

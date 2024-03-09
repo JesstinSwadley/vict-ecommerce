@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-	const Seller = sequelize.define("sellers", 
+	const Merchant = sequelize.define("merchants", 
 	{
 		email: {
 			type: DataTypes.STRING,
@@ -23,5 +23,5 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	});
 
-	return Seller
+	return Merchant
 }

@@ -1,32 +1,32 @@
 const {
-	models: { Seller },
+	models: { Merchant },
 } = require("../models/db");
 
-const registerSeller = async (req, res) => {
+const registerMerchant = async (req, res) => {
 	let email = req.body.email;
 	let password = req.body.password;
 
 	try {
-		const seller = await Seller.create({
+		const merchant = await Merchant.create({
 			email,
 			password,
 		});
 
-		return res.send(seller);
+		return res.send(merchant);
 	} catch (error) {
 		return res.send(error);
 	}
 };
 
-const loginSeller = async (req, res) => {
+const loginMerchant = async (req, res) => {
 	let email = req.body.email;
 
 	try {
-		const seller = await Seller.findOne({
+		const merchant = await Merchant.findOne({
 			where: { email }
 		});
 
-		if(!seller) {
+		if(!merchant) {
 			return res.send("Incorrect Email or Password");
 		}
 
@@ -36,4 +36,4 @@ const loginSeller = async (req, res) => {
 	}
 }
 
-module.exports = { registerSeller, loginSeller };
+module.exports = { registerMerchant, loginMerchant };
