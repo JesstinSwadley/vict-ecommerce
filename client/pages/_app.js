@@ -1,8 +1,14 @@
-// pages/_app.js or pages/_app.tsx
+// pages/_app.js
 import "../styles/globals.css";
+import NavBar from "../components/NavBar"; // Adjust the path as necessary
 
 function MyApp({ Component, pageProps }) {
-	return <Component {...pageProps} />;
+	return (
+		<div>
+			<NavBar />
+			<Component {...pageProps} />
+		</div>
+	);
 }
 
 export default MyApp;

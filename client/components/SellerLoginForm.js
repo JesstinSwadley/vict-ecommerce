@@ -8,13 +8,16 @@ const SellerForm = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:3001/sellers/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password }),
-			});
+			const response = await fetch(
+				"http://localhost:3001/merchants/login",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ email, password }),
+				}
+			);
 
 			if (!response.ok) {
 				throw new Error(`Error: ${response.status}`);

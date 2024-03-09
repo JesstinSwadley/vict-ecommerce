@@ -8,7 +8,7 @@ const SellerForm = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:3001/sellers/register", {
+			const response = await fetch("http://localhost:3001/merchants/register", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
