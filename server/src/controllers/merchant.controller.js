@@ -20,20 +20,19 @@ const registerMerchant = async (req, res) => {
 
 const loginMerchant = async (req, res) => {
 	let email = req.body.email;
-
 	try {
 		const merchant = await Merchant.findOne({
-			where: { email }
+			where: { email },
 		});
 
-		if(!merchant) {
+		if (!merchant) {
 			return res.send("Incorrect Email or Password");
 		}
-
-		return res.send("Welcome to the server");
+		console.log("Merchant found, ID:", merchant.id);
+		return res.json({ message: "Welcome to the server", id: merchant.id });
 	} catch (error) {
 		return res.send(error);
 	}
-}
+};
 
 module.exports = { registerMerchant, loginMerchant };

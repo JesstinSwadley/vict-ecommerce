@@ -1,6 +1,7 @@
 import React from "react";
-import AddProductForm from "../components/AddProductForm";
 import ProductTable from "../components/ProductTable";
+import StorefrontForm from "../components/StorefrontForm";
+import StorefrontTable from "../components/StorefrontTable";
 
 export default function Dashboard() {
 	return (
@@ -10,6 +11,8 @@ export default function Dashboard() {
 					Dashboard
 				</h1>
 				<ProductTable />
+				<StorefrontForm />
+				<StorefrontTable />
 			</div>
 		</main>
 	);

@@ -24,7 +24,19 @@ const SellerForm = () => {
 			}
 
 			const data = await response.json();
-			console.log("Success:", data);
+
+			// Assuming the response data includes the merchant's ID
+			if (data.id) {
+				// Save the merchant ID to localStorage
+				localStorage.setItem("merchantId", data.id);
+				console.log(
+					"Login successful, merchant ID saved to localStorage"
+				);
+			} else {
+				console.log(
+					"Login successful, but no merchant ID was found in the response"
+				);
+			}
 		} catch (error) {
 			console.error("Error:", error);
 		}
