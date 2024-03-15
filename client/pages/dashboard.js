@@ -1,6 +1,5 @@
 import React from "react";
 import ProductTable from "../components/ProductTable";
-import StorefrontForm from "../components/StorefrontForm";
 import StorefrontTable from "../components/StorefrontTable";
 
 export default function Dashboard() {
@@ -11,7 +10,6 @@ export default function Dashboard() {
 					Dashboard
 				</h1>
 				<ProductTable />
-				<StorefrontForm />
 				<StorefrontTable />
 			</div>
 		</main>

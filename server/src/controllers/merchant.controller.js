@@ -1,9 +1,10 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const {
 	models: { Merchant },
 } = require("../models/db");
 
+const privateKey = "your_secret_private_key";
 
 const registerMerchant = async (req, res) => {
 	const saltRounds = 10;
@@ -15,55 +16,47 @@ const registerMerchant = async (req, res) => {
 
 		const merchant = await Merchant.create({
 			email,
-			hashPassword
+			password: hashPassword,
 		});
 
-		const token = jwt.sign(
-			{ 
-				data: merchant 
-			}, 
-			privateKey,
-			{ 
-				expiresIn: '1h' 
-			}
-		);
+		const token = jwt.sign({ merchantId: merchant.id }, privateKey, {
+			expiresIn: "1h",
+		});
 
-		return res.send(token);
+		return res.json({ token });
 	} catch (error) {
-		return res.send(error);
+		console.error("Registration error:", error);
+		return res.status(500).send(error.message);
 	}
 };
 
 const loginMerchant = async (req, res) => {
 	const email = req.body.email;
-	const merchantPassword = req.body.password
+	const merchantPassword = req.body.password;
 
 	try {
-		const merchant = await Merchant.findOne({
-			where: { email },
-		});
+		const merchant = await Merchant.findOne({ where: { email } });
 
-		const match = await bcrypt.compare(merchantPassword, merchant.password);
+		if (merchant) {
+			const match = await bcrypt.compare(
+				merchantPassword,
+				merchant.password
+			);
+			if (match) {
+				const token = jwt.sign(
+					{ merchantId: merchant.id },
+					privateKey,
+					{ expiresIn: "1h" }
+				);
 
-		if (!merchant || !match) {
-			return res.send("Incorrect Email or Password");
+				return res.json({ token });
+			}
 		}
 
-		const token = jwt.sign(
-			{ 
-				data: {
-					merchantId: merchant.id
-				}
-			}, 
-			privateKey,
-			{ 
-				expiresIn: '1h' 
-			}
-		);
-
-		return res.json(token);
+		return res.status(401).send("Incorrect Email or Password");
 	} catch (error) {
-		return res.send(error);
+		console.error("Login error:", error);
+		return res.status(500).send(error.message);
 	}
 };
 

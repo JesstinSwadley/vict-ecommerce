@@ -20,21 +20,21 @@ const SellerForm = () => {
 			);
 
 			if (!response.ok) {
-				throw new Error(`Error: ${response.status}`);
+				const errorData = await response.json(); // Get the error message from the response
+				throw new Error(
+					errorData.message || `Error: ${response.status}`
+				);
 			}
 
 			const data = await response.json();
 
-			// Assuming the response data includes the merchant's ID
-			if (data.id) {
-				// Save the merchant ID to localStorage
-				localStorage.setItem("merchantId", data.id);
-				console.log(
-					"Login successful, merchant ID saved to localStorage"
-				);
+			// Store the JWT token from the response
+			if (data.token) {
+				localStorage.setItem("jwtToken", data.token);
+				console.log("Login successful, JWT saved to localStorage");
 			} else {
 				console.log(
-					"Login successful, but no merchant ID was found in the response"
+					"Login successful, but no JWT was found in the response"
 				);
 			}
 		} catch (error) {
