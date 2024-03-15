@@ -8,16 +8,22 @@ const SellerForm = () => {
 		e.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:3001/merchants/register", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ email, password }),
-			});
+			const response = await fetch(
+				"http://localhost:3001/merchants/register",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ email, password }),
+				}
+			);
 
 			if (!response.ok) {
-				throw new Error(`Error: ${response.status}`);
+				const errorData = await response.json();
+				throw new Error(
+					errorData.message || `Error: ${response.status}`
+				);
 			}
 
 			const data = await response.json();
