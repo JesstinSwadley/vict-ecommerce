@@ -110,10 +110,10 @@ export default function ProductManagement() {
 	};
 
 	return (
-		<div>
+		<div className="bg-white shadow-sm">
 			<form
 				onSubmit={handleSubmit}
-				className='mb-8 bg-gray-100 p-6 flex flex-row gap-4 w-full items-center justify-center'
+				className='mb-8 bg-slate-100 p-6 flex flex-row gap-4 w-full items-center justify-center'
 			>
 				<input
 					type='text'
@@ -139,7 +139,7 @@ export default function ProductManagement() {
 
 			<div>
 				<table className='min-w-full table-auto'>
-					<thead className='bg-gray-200'>
+					<thead className='bg-slate-100'>
 						<tr>
 							<th className='px-4 py-2 border'>Product Name</th>
 							<th className='px-4 py-2 border'>Price</th>

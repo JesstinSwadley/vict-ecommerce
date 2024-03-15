@@ -113,10 +113,10 @@ export default function StorefrontManagement() {
     };
 
     return (
-        <div className='bg-white p-4 mt-16'>
+        <div className='bg-white shadow-sm mt-16'>
             <form
                 onSubmit={handleSubmit}
-                className='mb-8 bg-gray-100 p-6 flex flex-row gap-4 w-full items-center justify-center'
+                className='mb-8 bg-slate-100 p-6 flex flex-row gap-4 w-full items-center justify-center'
             >
                 <input
                     type='text'
@@ -134,9 +134,8 @@ export default function StorefrontManagement() {
             </form>
 
             <div>
-                <h2 className='text-xl font-semibold my-4'>My Storefronts</h2>
                 <table className='min-w-full table-auto'>
-                    <thead className='bg-gray-200'>
+                    <thead className='bg-slate-100'>
                         <tr>
                             <th className='px-4 py-2 border'>Storefront Name</th>
                             <th className='px-4 py-2 border'>Actions</th>

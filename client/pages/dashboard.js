@@ -4,8 +4,8 @@ import StorefrontTable from "../components/StorefrontTable";
 
 export default function Dashboard() {
 	return (
-		<main>
-			<div className='container mx-auto px-4'>
+		<main className="bg-slate-200">
+			<div className='container mx-auto px-4 min-h-screen'>
 				<h1 className='page-title'>
 					Dashboard
 				</h1>

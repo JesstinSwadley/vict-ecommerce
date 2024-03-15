@@ -4,5 +4,9 @@
 @tailwind utilities;
 
 .page-title {
-    @apply text-3xl font-bold my-16 justify-center flex;
+    @apply text-3xl font-bold py-12 justify-center flex;
+}
+
+.navlinks {
+    @apply font-semibold hover:text-indigo-600 active:text-blue-500;
 }
