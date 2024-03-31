@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.UUIDV4,
 			primaryKey: true,
 			allowNull: false
+		},
+		store_front_id: {
+			type: DataTypes.STRING,
+			allowNull: false
 		}
 	});
 

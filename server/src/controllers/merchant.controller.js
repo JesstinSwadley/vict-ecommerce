@@ -43,13 +43,18 @@ const loginMerchant = async (req, res) => {
 				merchant.password
 			);
 			if (match) {
-				const token = jwt.sign(
-					{ merchantId: merchant.id },
-					privateKey,
-					{ expiresIn: "1h" }
-				);
 
-				return res.json({ token });
+				req.session.userId = merchant.id
+
+				return res.status(200).send(merchant);
+
+				// const token = jwt.sign(
+				// 	{ merchantId: merchant.id },
+				// 	privateKey,
+				// 	{ expiresIn: "1h" }
+				// );
+
+				// return res.json({ token });
 			}
 		}
 

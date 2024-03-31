@@ -1,5 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const session = require("express-session");
+
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const app = express();
 const db = require("./models/db");
@@ -8,6 +11,19 @@ const db = require("./models/db");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+	session({
+		secret: "random",
+		store: new SequelizeStore({
+			db
+		}),
+		resave: false,
+		proxy: true,
+		cookie: {
+			maxAge: 60000 * 60,
+		}
+	}),
+);
 
 const PORT = process.env.PORT || 3000;
 
