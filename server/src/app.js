@@ -15,7 +15,7 @@ app.use(
 	session({
 		secret: "random",
 		store: new SequelizeStore({
-			db
+			db: db.sequelize
 		}),
 		resave: false,
 		proxy: true,
