@@ -48,7 +48,11 @@ const updateProduct = async (req, res) => {
 			}
 		);
 
-		return res.send(product);
+		if (result[0] !== 0) {
+			return res.send("Product updated successfully");
+		}
+
+		return res.status(404).send("Product not found.");	
 	} catch (error) {
 		return res.send(error);
 	}
@@ -63,8 +67,11 @@ const deleteProduct = async (req, res) => {
 				id,
 			},
 		});
+		if (result[0] !== 0) {
+			return res.send("Product deleted successfully");
+		}
 
-		return res.send("Product was deleted");
+		return res.status(404).send("Product not found.");	
 	} catch (error) {
 		return res.send(error);
 	}

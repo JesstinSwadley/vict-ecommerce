@@ -6,10 +6,6 @@ const createStorefront = async (req, res) => {
 	let storefront_name = req.body.storefront_name;
 	let merchant_id = req.session.userId; // Get the merchant ID from session
 
-	if (!merchant_id) {
-		return res.status(403).send("Not authenticated");
-	}
-
 	try {
 		const storefront = await Storefront.create({
 			storefront_name,
@@ -25,10 +21,6 @@ const createStorefront = async (req, res) => {
 };
 
 const getStorefront = async (req, res) => {
-	if (!req.session.userId) {
-		return res.status(401).send("Please log in.");
-	}
-
 	try {
 		const storefronts = await Storefront.findAll({
 			where: {
@@ -46,10 +38,6 @@ const updateStorefront = async (req, res) => {
 	const { storefront_id, storefront_name } = req.body;
 	const merchant_id = req.session.userId;
 
-	if (!merchant_id) {
-		return res.status(403).send("Not authenticated");
-	}
-
 	try {
 		const result = await Storefront.update(
 			{ storefront_name },
@@ -61,15 +49,11 @@ const updateStorefront = async (req, res) => {
 			}
 		);
 
-		if (result[0] === 0) {
-			return res
-				.status(404)
-				.send(
-					"Storefront not found or does not belong to the current user."
-				);
+		if (result[0] !== 0) {
+			return res.send("Storefront updated successfully");
 		}
 
-		return res.send("Storefront updated successfully");
+		return res.status(404).send("Storefront not found or does not belong to the current user.");		
 	} catch (error) {
 		console.error("Error updating storefront:", error);
 		return res.status(500).send(error.message);
@@ -80,10 +64,6 @@ const deleteStorefront = async (req, res) => {
 	const { storefront_id } = req.query;
 	const merchant_id = req.session.userId;
 
-	if (!merchant_id) {
-		return res.status(403).send("Not authenticated");
-	}
-
 	try {
 		const result = await Storefront.destroy({
 			where: {
@@ -92,15 +72,11 @@ const deleteStorefront = async (req, res) => {
 			},
 		});
 
-		if (result === 0) {
-			return res
-				.status(404)
-				.send(
-					"Storefront not found or does not belong to the current user."
-				);
+		if (result[0] !== 0) {
+			return res.send("Storefront deleted successfully");
 		}
 
-		return res.send("Storefront deleted successfully");
+		return res.status(404).send("Storefront not found or does not belong to the current user.")
 	} catch (error) {
 		console.error("Error deleting storefront:", error);
 		return res.status(500).send(error.message);

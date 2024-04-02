@@ -6,8 +6,6 @@ module.exports = (req, res, next) => {
 		return res.status(500).json({ error: "Internal server error" });
 	}
 
-	console.log("Session data:", req.session);
-
 	try {
 		if (req.session.userId) {
 			console.log(`User authenticated with ID: ${req.session.userId}`);
