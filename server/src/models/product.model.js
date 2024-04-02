@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 			primaryKey: true,
 			allowNull: false
 		},
-		store_front_id: {
+		storefront_id: {
 			type: DataTypes.STRING,
 			allowNull: false
 		}

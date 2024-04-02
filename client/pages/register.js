@@ -1,9 +1,10 @@
-// pages/register.js
 import { useState } from "react";
 
 export default function Register() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -16,7 +17,12 @@ export default function Register() {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ email, password }),
+					body: JSON.stringify({
+						email,
+						password,
+						firstName,
+						lastName,
+					}),
 				}
 			);
 
@@ -36,12 +42,46 @@ export default function Register() {
 
 	return (
 		<div className='min-h-screen flex'>
-			<div className='flex-1 bg-slate-300'></div> {/* Left half blank */}
+			<div className='flex-1 bg-slate-300'></div>
 			<div className='flex-1 flex justify-center items-center'>
 				<form
 					onSubmit={handleSubmit}
 					className='space-y-4 w-full max-w-md'
 				>
+					<div>
+						<label
+							htmlFor='firstName'
+							className='block text-sm font-medium text-gray-700'
+						>
+							First Name
+						</label>
+						<input
+							type='text'
+							name='firstName'
+							id='firstName'
+							required
+							className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+							value={firstName}
+							onChange={(e) => setFirstName(e.target.value)}
+						/>
+					</div>
+					<div>
+						<label
+							htmlFor='lastName'
+							className='block text-sm font-medium text-gray-700'
+						>
+							Last Name
+						</label>
+						<input
+							type='text'
+							name='lastName'
+							id='lastName'
+							required
+							className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+							value={lastName}
+							onChange={(e) => setLastName(e.target.value)}
+						/>
+					</div>
 					<div>
 						<label
 							htmlFor='email'

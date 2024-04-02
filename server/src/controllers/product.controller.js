@@ -5,13 +5,13 @@ const {
 const createProduct = async (req, res) => {
 	let product_name = req.body.product_name;
 	let price = req.body.price;
-	let store_front_id = req.body.store_front_id;
+	let storefront_id = req.body.storefront_id;
 
 	try {
 		const product = await Product.create({
 			product_name,
 			price,
-			store_front_id
+			storefront_id,
 		});
 
 		return res.send(product);

@@ -4,7 +4,11 @@ const {
 
 const createStorefront = async (req, res) => {
 	let storefront_name = req.body.storefront_name;
-	let merchant_id = req.body.merchant_id;
+	let merchant_id = req.session.userId; // Get the merchant ID from session
+
+	if (!merchant_id) {
+		return res.status(403).send("Not authenticated");
+	}
 
 	try {
 		const storefront = await Storefront.create({
@@ -12,66 +16,94 @@ const createStorefront = async (req, res) => {
 			merchant_id,
 		});
 
-		console.log("Storefront found, ID:", storefront.id);
+		console.log("Storefront created, ID:", storefront.id);
 		return res.send(storefront);
 	} catch (error) {
-		return res.send(error);
-	}
-};
-
-const getStorefront = async (req, res) => {
-	let merchant_id = req.query.merchant_id;
-
-	try {
-		// Fetch all storefronts that belong to a specific merchant
-		const storefronts = await Storefront.findAll({
-			where: {
-				merchant_id: merchant_id, // Corrected to filter by merchant_id
-			},
-		});
-
-		return res.send(storefronts); // Returns an array of storefronts
-	} catch (error) {
-		console.error("Error fetching storefronts:", error);
+		console.error("Error creating storefront:", error);
 		return res.status(500).send(error.message);
 	}
 };
 
-const updateStorefront = async (req, res) => {
-	let storefront_name = req.body.storefront_name;
-	let id = req.body.storefront_id;
+const getStorefront = async (req, res) => {
+	if (!req.session.userId) {
+		return res.status(401).send("Please log in.");
+	}
 
 	try {
-		const storefront = await Storefront.update(
-			{
-				storefront_name,
+		const storefronts = await Storefront.findAll({
+			where: {
+				merchant_id: req.session.userId,
 			},
+		});
+		res.json(storefronts);
+	} catch (error) {
+		console.error("Error fetching storefronts:", error);
+		res.status(500).send(error.message);
+	}
+};
+
+const updateStorefront = async (req, res) => {
+	const { storefront_id, storefront_name } = req.body;
+	const merchant_id = req.session.userId;
+
+	if (!merchant_id) {
+		return res.status(403).send("Not authenticated");
+	}
+
+	try {
+		const result = await Storefront.update(
+			{ storefront_name },
 			{
 				where: {
-					id,
+					id: storefront_id,
+					merchant_id,
 				},
 			}
 		);
 
-		return res.send(storefront);
+		if (result[0] === 0) {
+			return res
+				.status(404)
+				.send(
+					"Storefront not found or does not belong to the current user."
+				);
+		}
+
+		return res.send("Storefront updated successfully");
 	} catch (error) {
-		return res.send(error);
+		console.error("Error updating storefront:", error);
+		return res.status(500).send(error.message);
 	}
 };
 
 const deleteStorefront = async (req, res) => {
-	let id = req.query.storefront_id;
+	const { storefront_id } = req.query;
+	const merchant_id = req.session.userId;
+
+	if (!merchant_id) {
+		return res.status(403).send("Not authenticated");
+	}
 
 	try {
-		await Storefront.destroy({
+		const result = await Storefront.destroy({
 			where: {
-				id,
+				id: storefront_id,
+				merchant_id,
 			},
 		});
 
-		return res.send("Storefront was deleted");
+		if (result === 0) {
+			return res
+				.status(404)
+				.send(
+					"Storefront not found or does not belong to the current user."
+				);
+		}
+
+		return res.send("Storefront deleted successfully");
 	} catch (error) {
-		return res.send(error);
+		console.error("Error deleting storefront:", error);
+		return res.status(500).send(error.message);
 	}
 };
 

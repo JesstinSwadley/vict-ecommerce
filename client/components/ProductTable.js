@@ -3,22 +3,54 @@ import React, { useState, useEffect } from "react";
 export default function ProductManagement() {
 	const [productName, setProductName] = useState("");
 	const [price, setPrice] = useState("");
+	const [storefronts, setStorefronts] = useState([]);
+	const [selectedStorefrontId, setSelectedStorefrontId] = useState("");
 	const [products, setProducts] = useState([]);
 	const [editingId, setEditingId] = useState(null);
 	const [editedProductName, setEditedProductName] = useState("");
 	const [editedPrice, setEditedPrice] = useState("");
 
-	const fetchProducts = async () => {
-		const response = await fetch(
-			"http://localhost:3001/products/all-products"
-		);
-		const data = await response.json();
-		setProducts(data);
-	};
-
 	useEffect(() => {
+		fetchStorefronts();
 		fetchProducts();
 	}, []);
+
+	const fetchStorefronts = async () => {
+		const response = await fetch("http://localhost:3001/store/get-store", {
+			credentials: "include",
+		});
+		if (response.ok) {
+			const data = await response.json();
+			setStorefronts(data);
+			if (data.length > 0) {
+				setSelectedStorefrontId(data[0].id);
+			}
+		}
+	};
+
+	const fetchProducts = async () => {
+		try {
+			const response = await fetch(
+				"http://localhost:3001/products/all-products",
+				{
+					credentials: "include",
+				}
+			);
+			const data = await response.json();
+
+			console.log("Fetched products:", data);
+
+			if (Array.isArray(data)) {
+				setProducts(data);
+			} else {
+				console.error("Expected an array for products, but got:", data);
+				setProducts([]);
+			}
+		} catch (error) {
+			console.error("Failed to fetch products:", error);
+			setProducts([]);
+		}
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -31,9 +63,11 @@ export default function ProductManagement() {
 					headers: {
 						"Content-Type": "application/json",
 					},
+					credentials: "include",
 					body: JSON.stringify({
 						product_name: productName,
 						price,
+						storefront_id: selectedStorefrontId,
 					}),
 				}
 			);
@@ -71,6 +105,7 @@ export default function ProductManagement() {
 					headers: {
 						"Content-Type": "application/json",
 					},
+					credentials: "include",
 					body: JSON.stringify({
 						product_id: id,
 						product_name: editedProductName,
@@ -96,6 +131,7 @@ export default function ProductManagement() {
 				`http://localhost:3001/products/delete?product_id=${id}`,
 				{
 					method: "DELETE",
+					credentials: "include",
 				}
 			);
 
@@ -110,7 +146,7 @@ export default function ProductManagement() {
 	};
 
 	return (
-		<div className="bg-white shadow-sm">
+		<div className='bg-white shadow-sm'>
 			<form
 				onSubmit={handleSubmit}
 				className='mb-8 bg-slate-100 p-6 flex flex-row gap-4 w-full items-center justify-center'
@@ -129,6 +165,17 @@ export default function ProductManagement() {
 					onChange={(e) => setPrice(e.target.value)}
 					className='px-4 py-2 border rounded-md mr-2'
 				/>
+				<select
+					value={selectedStorefrontId}
+					onChange={(e) => setSelectedStorefrontId(e.target.value)}
+					className='px-4 py-2 border rounded-md mr-2'
+				>
+					{storefronts.map((storefront) => (
+						<option key={storefront.id} value={storefront.id}>
+							{storefront.storefront_name}
+						</option>
+					))}
+				</select>
 				<button
 					type='submit'
 					className='px-4 py-2 bg-blue-600 text-white rounded-md'
