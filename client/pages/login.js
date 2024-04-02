@@ -6,6 +6,7 @@ export default function Login() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		console.log("Attempting to log in with", email, password);
 
 		try {
 			const response = await fetch(
@@ -15,6 +16,7 @@ export default function Login() {
 					headers: {
 						"Content-Type": "application/json",
 					},
+					credentials: "include",
 					body: JSON.stringify({ email, password }),
 				}
 			);
@@ -26,17 +28,15 @@ export default function Login() {
 				);
 			}
 
-			const data = await response.json();
-			localStorage.setItem("jwtToken", data.token);
-			console.log("Login successful, JWT saved to localStorage");
+			console.log("Login successful");
 		} catch (error) {
-			console.error("Error:", error);
+			console.error("Login error:", error);
 		}
 	};
 
 	return (
 		<div className='min-h-screen flex'>
-			<div className='flex-1 bg-slate-300'></div> {/* Left half blank */}
+			<div className='flex-1 bg-slate-300'></div>
 			<div className='flex-1 flex justify-center items-center'>
 				<form
 					onSubmit={handleSubmit}
