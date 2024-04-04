@@ -17,11 +17,9 @@ const registerMerchant = async (req, res) => {
 			email,
 			password: hashPassword,
 		});
-		req.session.userId = merchant.id;
 
-		return res
-			.status(200)
-			.send({ message: "Registration successful", merchant });
+		req.session.userId = merchant.id;
+		return res.status(200).send({ message: "Registration successful", merchant });
 	} catch (error) {
 		console.error("Registration error:", error);
 		return res.status(500).send(error.message);
@@ -33,31 +31,26 @@ const loginMerchant = async (req, res) => {
 
 	try {
 		const merchant = await Merchant.findOne({ where: { email } });
+		const passwordMatch = await bcrypt.compare(password, merchant.password);
 
-		if (merchant) {
-			const match = await bcrypt.compare(password, merchant.password);
-			if (match) {
-				req.session.userId = merchant.id;
-				req.session.save((err) => {
-					if (err) {
-						console.error("Session save error:", err);
-						return res.status(500).send("Internal Server Error");
-					}
-					console.log(
-						`Session saved for userId: ${req.session.userId}`
-					);
-					res.status(200).send(merchant);
-				});
-			} else {
-				return res.status(401).send("Incorrect Email or Password");
-			}
-		} else {
+		if (merchant == null || !passwordMatch) {
 			return res.status(401).send("Incorrect Email or Password");
 		}
+
+		req.session.userId = merchant.id;
+		res.status(200).send(merchant);
 	} catch (error) {
 		console.error("Login error:", error);
 		return res.status(500).send(error.message);
 	}
 };
 
-module.exports = { registerMerchant, loginMerchant };
+const logoutMerchant = async (req, res) => {
+	const sId = req.session.id
+
+	req.session.destroy(sId, () => {
+		res.send("Merchant has been logged out");
+	});
+}
+
+module.exports = { registerMerchant, loginMerchant, logoutMerchant };
