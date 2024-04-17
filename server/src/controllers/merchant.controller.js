@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const {
 	models: { Merchant },
 } = require("../models/db");
@@ -46,7 +45,7 @@ const loginMerchant = async (req, res) => {
 };
 
 const logoutMerchant = async (req, res) => {
-	const sId = req.session.id
+	const sId = req.session.id;
 
 	req.session.destroy(sId, () => {
 		res.send("Merchant has been logged out");

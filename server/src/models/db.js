@@ -20,5 +20,6 @@ db.models = {};
 db.models.Merchant = require("./merchant.model")(sequelize, DataTypes);
 db.models.Product = require("./product.model")(sequelize, DataTypes);
 db.models.Storefront = require("./storefront.model")(sequelize, DataTypes);
+db.models.Customer = require("./customer.model")(sequelize, DataTypes);
 
 module.exports = db;
