@@ -43,12 +43,14 @@ const merchantRoutes = require("./router/merchant.routes");
 const productRoutes = require("./router/product.routes");
 const storefrontRoutes = require("./router/storefront.routes");
 const customerRoutes = require("./router/customer.routes");
+const transactionRoutes = require("./router/transaction.routes");
 
 // Routes
 app.use("/merchants", merchantRoutes);
 app.use("/products", productRoutes);
 app.use("/store", storefrontRoutes);
 app.use("/customer", customerRoutes);
+app.use("/transaction", transactionRoutes);
 
 app.listen(PORT, () => {
 	console.log(`Server is on Port ${PORT}`);
