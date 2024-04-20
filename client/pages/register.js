@@ -5,26 +5,29 @@ export default function Register() {
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
+	const [role, setRole] = useState("merchant"); // New state variable for role
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
+		const url =
+			role === "merchant"
+				? "http://localhost:3001/merchants/register"
+				: "http://localhost:3001/customer/register";
+
 		try {
-			const response = await fetch(
-				"http://localhost:3001/merchants/register",
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						email,
-						password,
-						firstName,
-						lastName,
-					}),
-				}
-			);
+			const response = await fetch(url, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email,
+					password,
+					firstName,
+					lastName,
+				}),
+			});
 
 			if (!response.ok) {
 				const errorData = await response.json();
@@ -42,12 +45,41 @@ export default function Register() {
 
 	return (
 		<div className='min-h-screen flex'>
-			<div className='flex-1 bg-slate-300'></div>
+			<div className='flex-1 bg-slate-300 justify-center items-center flex'>
+				<span className="text-3xl font-bold">Register</span>
+			</div>
 			<div className='flex-1 flex justify-center items-center'>
 				<form
 					onSubmit={handleSubmit}
 					className='space-y-4 w-full max-w-md'
 				>
+					<div className='flex justify-center flex-col items-center'>
+						<span className='text-center'>Select Account Type</span>
+						<div className='flex flex-row justify-center items-center w-full gap-4'>
+							<label>
+								<input
+									type='radio'
+									name='role'
+									value='merchant'
+									checked={role === "merchant"}
+									onChange={() => setRole("merchant")}
+									className='mr-2'
+								/>
+								Merchant
+							</label>
+							<label className=''>
+								<input
+									type='radio'
+									name='role'
+									value='customer'
+									checked={role === "customer"}
+									onChange={() => setRole("customer")}
+									className='mr-2'
+								/>
+								Customer
+							</label>
+						</div>
+					</div>
 					<div>
 						<label
 							htmlFor='firstName'
