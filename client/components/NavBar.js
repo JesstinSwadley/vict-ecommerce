@@ -13,6 +13,11 @@ export default function NavBar() {
 					</a>
 				</li>
 				<li className=''>
+					<a className='navlinks' href='/products'>
+						Products
+					</a>
+				</li>
+				<li className=''>
 					<a className='navlinks' href='/register'>
 						Register
 					</a>
@@ -25,9 +30,17 @@ export default function NavBar() {
 				<li className=''>
 					<a
 						className='navlinks'
-						href='/dashboard'
+						href='/merchant/dashboard'
 					>
 						Dashboard
+					</a>
+				</li>
+				<li className=''>
+					<a
+						className='navlinks'
+						href='/customer/profile'
+					>
+						Profile
 					</a>
 				</li>
 			</ul>
