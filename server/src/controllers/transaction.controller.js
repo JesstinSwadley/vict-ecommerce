@@ -1,27 +1,31 @@
 const {
-	models: { Transaction }
+	models: { Transaction },
 } = require("../models/db");
 
 const createTransaction = async (req, res) => {
-	const { total, product_id, customer_id } = req.body;
+	const { total, product_id } = req.body;
+	const customer_id = req.session.userId;
 
 	try {
 		const transaction = await Transaction.create({
 			total,
 			product_id,
-			customer_id
+			customer_id,
 		});
 
-		return res.status(201).send("Transaction complete");
+		return res.send(transaction);
 	} catch (error) {
-		return res.send(error);
+		console.error("Error creating transaction:", error);
+		return res.status(500).send("Internal Server Error");
 	}
 };
 
 const getAllCustomerTransactions = async (req, res) => {
-	const customer_id = req.body.customer_id
-	
-	let { count, rows } = await Transaction.findAndCountAll({ where: { customer_id }});
+	const customer_id = req.session.userId;
+
+	let { count, rows } = await Transaction.findAndCountAll({
+		where: { customer_id },
+	});
 
 	return res.send(rows);
 };
@@ -39,14 +43,14 @@ const refundTransaction = async (req, res) => {
 			return res.send("Transaction refund successfully");
 		}
 
-		return res.status(404).send("Transaction not found.");	
+		return res.status(404).send("Transaction not found.");
 	} catch (error) {
 		return res.send(error);
 	}
-}
+};
 
 module.exports = {
 	createTransaction,
 	getAllCustomerTransactions,
-	refundTransaction
-}
+	refundTransaction,
+};
