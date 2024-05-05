@@ -18,7 +18,27 @@ module.exports = (sequelize, DataTypes) => {
 		storefront_id: {
 			type: DataTypes.STRING,
 			allowNull: false
-		}
+		},
+		quantity: {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
+		description: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		style: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		size: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
+		color: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 	});
 
 	return Product

@@ -1,5 +1,5 @@
 const {
-	models: { Transaction },
+	models: { Transaction, Product },
 } = require("../models/db");
 
 const createTransaction = async (req, res) => {
@@ -12,6 +12,14 @@ const createTransaction = async (req, res) => {
 			product_id,
 			customer_id,
 		});
+
+		let product = await Product.findOne({
+			where: {
+				id: product_id
+			}
+		});
+
+		await product.decrement(["quantity"], { by: 1});
 
 		return res.send(transaction);
 	} catch (error) {

@@ -3,18 +3,21 @@ const {
 } = require("../models/db");
 
 const createProduct = async (req, res) => {
-	let product_name = req.body.product_name;
-	let price = req.body.price;
-	let storefront_id = req.body.storefront_id;
+	let { product_name, price, storefront_id, quantity, description, style, size, color } = req.body
 
 	try {
 		const product = await Product.create({
 			product_name,
 			price,
 			storefront_id,
+			quantity,
+			description,
+			style,
+			size,
+			color
 		});
 
-		return res.send(product);
+		return res.status(201).send(product);
 	} catch (error) {
 		return res.send(error);
 	}
@@ -30,20 +33,39 @@ const getAllProducts = async (req, res) => {
 	}
 };
 
-const updateProduct = async (req, res) => {
-	let product_name = req.body.product_name;
-	let price = req.body.price;
-	let id = req.body.product_id;
+const getStorefrontProducts = async (req, res) => {
+	let { storefront_id } = req.query;
 
 	try {
-		const product = await Product.update(
+		const { count, rows } = await Product.findAndCountAll({
+			where: {
+				storefront_id
+			}
+		});
+
+		return res.send(rows);
+	} catch (error) {
+		return res.send(error);
+	}
+}
+
+const updateProduct = async (req, res) => {
+	let { product_name, price, product_id, quantity, description, style, size, color } = req.body
+
+	try {
+		await Product.update(
 			{
 				product_name,
 				price,
+				quantity,
+				description,
+				style,
+				size,
+				color
 			},
 			{
 				where: {
-					id,
+					id: product_id,
 				},
 			}
 		);
@@ -80,6 +102,7 @@ const deleteProduct = async (req, res) => {
 module.exports = {
 	createProduct,
 	getAllProducts,
+	getStorefrontProducts,
 	updateProduct,
 	deleteProduct,
 };
